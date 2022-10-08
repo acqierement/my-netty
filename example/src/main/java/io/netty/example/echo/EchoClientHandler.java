@@ -19,6 +19,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.CharsetUtil;
+import org.bouncycastle.util.encoders.UTF8;
 
 /**
  * Handler implementation for the echo client.  It initiates the ping-pong
@@ -41,12 +43,17 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(firstMessage);
+//        firstMessage.writeBytes("hello world!".getBytes());
+        ctx.writeAndFlush(Unpooled.copiedBuffer("Hello,Netty",CharsetUtil.UTF_8));
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ctx.write(msg);
+        ByteBuf byteBuf = (ByteBuf) msg;
+        System.out.println(byteBuf.toString(CharsetUtil.UTF_8));
+        ctx.close();
+
+//        ctx.write(msg);
     }
 
     @Override

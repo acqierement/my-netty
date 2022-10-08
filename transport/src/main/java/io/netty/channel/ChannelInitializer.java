@@ -18,6 +18,7 @@ package io.netty.channel;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.util.internal.ConcurrentSet;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
@@ -58,6 +59,7 @@ public abstract class ChannelInitializer<C extends Channel> extends ChannelInbou
     // ServerBootstrap. This way we can reduce the memory usage compared to use Attributes.
     private final Set<ChannelHandlerContext> initMap = Collections.newSetFromMap(
             new ConcurrentHashMap<ChannelHandlerContext, Boolean>());
+
 
     /**
      * This method will be called once the {@link Channel} was registered. After the method returns this instance
